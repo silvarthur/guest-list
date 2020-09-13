@@ -1,5 +1,7 @@
 package com.example.guestlist.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class Guest {
@@ -8,7 +10,10 @@ public class Guest {
     private final String address;
     private final int numberOfInvites;
 
-    public Guest(UUID id, String name, String address, int numberOfInvites) {
+    public Guest(@JsonProperty("id") UUID id,
+                 @JsonProperty("name") String name,
+                 @JsonProperty("address") String address,
+                 @JsonProperty("numberOfInvites") int numberOfInvites) {
         this.id = id;
         this.name = name;
         this.address = address;
