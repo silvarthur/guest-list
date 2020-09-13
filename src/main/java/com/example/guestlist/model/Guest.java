@@ -1,11 +1,12 @@
 package com.example.guestlist.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class Guest {
     private final UUID id;
+    @NotBlank
     private final String name;
     private final String address;
     private final int numberOfInvites;

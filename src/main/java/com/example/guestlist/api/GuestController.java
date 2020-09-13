@@ -3,7 +3,10 @@ package com.example.guestlist.api;
 import com.example.guestlist.model.Guest;
 import com.example.guestlist.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +21,7 @@ public class GuestController {
     }
 
     @PostMapping
-    public void addGuest(@RequestBody Guest guest) {
+    public void addGuest(@Valid @NonNull @RequestBody Guest guest) {
         this.guestService.addGuest(guest);
     }
 
@@ -35,7 +38,7 @@ public class GuestController {
 
     @PutMapping(path = "{id}")
     public void updateGuestByID(@PathVariable("id") UUID id,
-                                @RequestBody Guest guest) {
+                                @Valid @NonNull @RequestBody Guest guest) {
         this.guestService.updateGuestByID(id, guest);
     }
 
