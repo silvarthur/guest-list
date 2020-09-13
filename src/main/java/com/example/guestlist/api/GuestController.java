@@ -3,10 +3,9 @@ package com.example.guestlist.api;
 import com.example.guestlist.model.Guest;
 import com.example.guestlist.service.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("api/v1/guest")
 @RestController
@@ -21,5 +20,10 @@ public class GuestController {
     @PostMapping
     public void addGuest(@RequestBody Guest guest) {
         this.guestService.addGuest(guest);
+    }
+
+    @GetMapping
+    public List<Guest> getAllGuests() {
+        return this.guestService.getAllGuests();
     }
 }

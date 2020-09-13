@@ -17,4 +17,9 @@ public class GuestDataAccessService implements GuestDAO{
                 guest.getNumberOfInvites()));
         return 1;
     }
+
+    @Override
+    public List<Guest> selectAllGuests() {
+        return DB;
+    }
 }
