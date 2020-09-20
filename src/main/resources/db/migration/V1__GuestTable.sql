@@ -1,0 +1,6 @@
+CREATE TABLE guest (
+    id UUID NOT NULL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    invites SMALLINT NOT NULL
+);

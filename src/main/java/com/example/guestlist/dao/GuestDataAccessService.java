@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("sqlGuestDao")
+@Repository("postgres")
 public class GuestDataAccessService implements GuestDAO{
     private static List<Guest> DB = new ArrayList<>();
 

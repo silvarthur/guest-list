@@ -14,7 +14,7 @@ public class GuestService {
     private final GuestDAO guestDAO;
 
     @Autowired
-    public GuestService(@Qualifier("sqlGuestDao") GuestDAO guestDAO) {
+    public GuestService(@Qualifier("postgres") GuestDAO guestDAO) {
         this.guestDAO = guestDAO;
     }
 
