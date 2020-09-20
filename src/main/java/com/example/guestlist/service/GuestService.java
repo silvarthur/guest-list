@@ -19,7 +19,7 @@ public class GuestService {
     }
 
     public int addGuest(Guest guest) {
-        return guestDAO.insertPerson(guest);
+        return guestDAO.insertGuest(guest);
     }
 
     public List<Guest> getAllGuests() {
@@ -30,8 +30,8 @@ public class GuestService {
         return guestDAO.selectGuestByID( id);
     }
 
-    public int updateGuestByID(UUID id, Guest newGuest) {
-        return guestDAO.updateGuestByID(id, newGuest);
+    public int updateGuestByID(UUID id, Guest guest) {
+        return guestDAO.updateGuestByID(id, guest);
     }
 
     public int deleteGuestByID(UUID id) {

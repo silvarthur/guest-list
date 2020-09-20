@@ -1,55 +1,78 @@
 package com.example.guestlist.dao;
 
 import com.example.guestlist.model.Guest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository("postgres")
 public class GuestDataAccessService implements GuestDAO{
-    private static List<Guest> DB = new ArrayList<>();
+    private final JdbcTemplate jdbcTemplate;
 
-    @Override
-    public int insertPerson(UUID id, Guest guest) {
-        DB.add(new Guest(id, guest.getName(), guest.getAddress(),
-                guest.getNumberOfInvites()));
-        return 1;
+    @Autowired
+    public GuestDataAccessService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public List<Guest> selectAllGuests() {
-        return DB;
+        String query = "SELECT * FROM guest";
+
+        return jdbcTemplate.query(query, (resultSet, i) -> {
+            return new Guest(
+                UUID.fromString(resultSet.getString("id")),
+                resultSet.getString("name"),
+                resultSet.getString("address"),
+                resultSet.getInt("invites")
+            );
+        });
     }
 
     @Override
     public Optional<Guest> selectGuestByID(UUID id) {
-        return DB.stream()
-                .filter(guest -> guest.getId().equals(id))
-                .findFirst();
+        String query = "SELECT * FROM guest WHERE id = ?";
+
+        Guest guest = jdbcTemplate.queryForObject(query, new Object[]{id}, (resultSet, i) -> {
+            return new Guest(
+                UUID.fromString(resultSet.getString("id")),
+                resultSet.getString("name"),
+                resultSet.getString("address"),
+                resultSet.getInt("invites"));
+        });
+
+        return Optional.ofNullable(guest);
+    }
+
+    @Override
+    public int insertGuest(Guest guest) {
+        String query = "INSERT INTO guest (id, name, address, invites) VALUES (?, ?, ?, ?)";
+
+        return jdbcTemplate.update(
+            query,
+            guest.getId(),
+            guest.getName(),
+            guest.getAddress(),
+            guest.getNumberOfInvites()
+        );
     }
 
     @Override
     public int updateGuestByID(UUID id, Guest guest) {
-        return selectGuestByID(id).map(tempGuest -> {
-            int indexOfGuestToUpdate = DB.indexOf(tempGuest);
-            if(indexOfGuestToUpdate >= 0) {
-                DB.set(indexOfGuestToUpdate, new Guest(id, tempGuest.getName(),
-                        tempGuest.getAddress(), tempGuest.getNumberOfInvites()));
-                return 1;
-            }
-            return 0;
-        }).orElse(0);
+        String query =
+                "UPDATE guest " +
+                "SET name = ?, address = ?, invites = ? " +
+                "WHERE id = ?";
+
+        return jdbcTemplate.update(query, guest.getName(),
+                guest.getAddress(), guest.getNumberOfInvites(), guest.getId());
     }
 
     @Override
     public int deleteGuestByID(UUID id) {
-        Optional<Guest> guest = selectGuestByID(id);
-        if(guest.isEmpty()) {
-            return 0;
-        }
-        DB.remove(guest.get());
-        return 1;
+        String query = "DELETE FROM guest WHERE id = ?";
+        return jdbcTemplate.update(query, id);
     }
 }

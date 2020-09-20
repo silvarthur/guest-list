@@ -6,12 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GuestDAO {
-    int insertPerson(UUID id, Guest guest);
-
-    default int insertPerson(Guest guest) {
-        UUID id = UUID.randomUUID();
-        return insertPerson(id, guest);
-    }
+    int insertGuest(Guest guest);
 
     List<Guest> selectAllGuests();
 
