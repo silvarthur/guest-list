@@ -7,7 +7,9 @@ attributes:
 * ID;
 * Name;
 * Address;
-* Number of Invites.
+* Phone;
+* E-mail;
+* Number of Invitations.
 
 Each guest can have extra invites for taking any kind of companion to the event.
 This is represented by the attribute Number of Invites.

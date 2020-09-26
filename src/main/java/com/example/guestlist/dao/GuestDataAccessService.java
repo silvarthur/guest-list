@@ -51,11 +51,10 @@ public class GuestDataAccessService implements GuestDAO{
 
     @Override
     public int insertGuest(Guest guest) {
-        String query = "INSERT INTO guest (name, address, phone, email, invites) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO guest (name, address, phone, email, extra_invitations) VALUES (?, ?, ?, ?, ?)";
 
         return jdbcTemplate.update(
             query,
-            guest.getId(),
             guest.getName(),
             guest.getAddress(),
             guest.getPhone(),
