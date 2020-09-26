@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class GuestService {
@@ -26,15 +25,15 @@ public class GuestService {
         return guestDAO.selectAllGuests();
     }
     
-    public Optional<Guest> getGuestByID(UUID id) {
-        return guestDAO.selectGuestByID( id);
+    public Optional<Guest> getGuestByID(int id) {
+        return guestDAO.selectGuestByID(id);
     }
 
-    public int updateGuestByID(UUID id, Guest guest) {
+    public int updateGuestByID(int id, Guest guest) {
         return guestDAO.updateGuestByID(id, guest);
     }
 
-    public int deleteGuestByID(UUID id) {
+    public int deleteGuestByID(int id) {
         return guestDAO.deleteGuestByID(id);
     }
 }
