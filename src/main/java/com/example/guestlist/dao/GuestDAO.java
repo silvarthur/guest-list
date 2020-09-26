@@ -3,15 +3,14 @@ package com.example.guestlist.dao;
 import com.example.guestlist.model.Guest;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface GuestDAO {
     List<Guest> selectAllGuests();
-    Optional<Guest> selectGuestByID(UUID id);
+    Optional<Guest> selectGuestByID(int id);
 
     int insertGuest(Guest guest);
 
-    int updateGuestByID(UUID id, Guest guest);
+    int updateGuestByID(int id, Guest guest);
 
-    int deleteGuestByID(UUID id);
+    int deleteGuestByID(int id);
 }

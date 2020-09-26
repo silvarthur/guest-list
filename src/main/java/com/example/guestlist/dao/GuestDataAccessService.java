@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository("postgres")
 public class GuestDataAccessService implements GuestDAO{
@@ -23,24 +22,28 @@ public class GuestDataAccessService implements GuestDAO{
 
         return jdbcTemplate.query(query, (resultSet, i) -> {
             return new Guest(
-                UUID.fromString(resultSet.getString("id")),
+                Integer.valueOf(resultSet.getString("id")),
                 resultSet.getString("name"),
                 resultSet.getString("address"),
-                resultSet.getInt("invites")
+                resultSet.getString("phone"),
+                resultSet.getString("email"),
+                resultSet.getInt("extra_invitations")
             );
         });
     }
 
     @Override
-    public Optional<Guest> selectGuestByID(UUID id) {
+    public Optional<Guest> selectGuestByID(int id) {
         String query = "SELECT * FROM guest WHERE id = ?";
 
         Guest guest = jdbcTemplate.queryForObject(query, new Object[]{id}, (resultSet, i) -> {
             return new Guest(
-                UUID.fromString(resultSet.getString("id")),
+                Integer.valueOf(resultSet.getString("id")),
                 resultSet.getString("name"),
                 resultSet.getString("address"),
-                resultSet.getInt("invites"));
+                resultSet.getString("phone"),
+                resultSet.getString("email"),
+                resultSet.getInt("extra_invitations"));
         });
 
         return Optional.ofNullable(guest);
@@ -48,30 +51,33 @@ public class GuestDataAccessService implements GuestDAO{
 
     @Override
     public int insertGuest(Guest guest) {
-        String query = "INSERT INTO guest (id, name, address, invites) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO guest (name, address, phone, email, invites) VALUES (?, ?, ?, ?, ?)";
 
         return jdbcTemplate.update(
             query,
             guest.getId(),
             guest.getName(),
             guest.getAddress(),
-            guest.getNumberOfInvites()
+            guest.getPhone(),
+            guest.getEmail(),
+            guest.getExtraInvitations()
         );
     }
 
     @Override
-    public int updateGuestByID(UUID id, Guest guest) {
+    public int updateGuestByID(int id, Guest guest) {
         String query =
                 "UPDATE guest " +
-                "SET name = ?, address = ?, invites = ? " +
+                "SET name = ?, address = ?, phone = ?, email = ?, extra_invitations = ? " +
                 "WHERE id = ?";
 
         return jdbcTemplate.update(query, guest.getName(),
-                guest.getAddress(), guest.getNumberOfInvites(), guest.getId());
+                guest.getAddress(), guest.getPhone(), guest.getEmail(),
+                guest.getExtraInvitations(), guest.getId());
     }
 
     @Override
-    public int deleteGuestByID(UUID id) {
+    public int deleteGuestByID(int id) {
         String query = "DELETE FROM guest WHERE id = ?";
         return jdbcTemplate.update(query, id);
     }

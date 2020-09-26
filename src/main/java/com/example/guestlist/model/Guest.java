@@ -2,26 +2,31 @@ package com.example.guestlist.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
-import java.util.UUID;
 
 public class Guest {
-    private final UUID id;
+    private final int id;
     @NotBlank
     private final String name;
     private final String address;
-    private final int numberOfInvites;
+    private final String phone;
+    private final String email;
+    private final int extraInvitations;
 
-    public Guest(@JsonProperty("id") UUID id,
+    public Guest(@JsonProperty("id") int id,
                  @JsonProperty("name") String name,
                  @JsonProperty("address") String address,
-                 @JsonProperty("numberOfInvites") int numberOfInvites) {
+                 @JsonProperty("phone") String phone,
+                 @JsonProperty("email") String email,
+                 @JsonProperty("extraInvitations") int extraInvitations) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.numberOfInvites = numberOfInvites;
+        this.phone = phone;
+        this.email = email;
+        this.extraInvitations = extraInvitations;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
@@ -33,7 +38,15 @@ public class Guest {
         return address;
     }
 
-    public int getNumberOfInvites() {
-        return numberOfInvites;
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getExtraInvitations() {
+        return extraInvitations;
     }
 }
