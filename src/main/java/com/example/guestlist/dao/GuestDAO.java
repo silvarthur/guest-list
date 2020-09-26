@@ -6,11 +6,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface GuestDAO {
-    int insertGuest(Guest guest);
-
     List<Guest> selectAllGuests();
-
     Optional<Guest> selectGuestByID(UUID id);
+
+    int insertGuest(Guest guest);
 
     int updateGuestByID(UUID id, Guest guest);
 
